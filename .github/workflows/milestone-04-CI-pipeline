@@ -1,0 +1,39 @@
+name: CI Pipeline for milestone-04
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'milestone-04/**'
+  workflow_dispatch:            # Manual trigger
+
+permissions:
+  contents: write
+
+env:
+  tag: 10.0.2
+
+jobs:
+  build-and-push:
+    runs-on: self-hosted  # Use Ubuntu Self-hosted runner
+
+    steps:
+      # Checkout the repository (this ensures the milestone-04 directory is available)
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 1: Set up Docker (to use Docker CLI)
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      # Step 2: Install Python (for tests and linting)
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        working-directory: milestone-04  # Ensure the working directory is set
+        run: pip install -r requirements.txt
