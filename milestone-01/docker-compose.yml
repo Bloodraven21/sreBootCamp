@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'studentdb1'        # Name of the database to create
+      MYSQL_USER: 'root'          # Sample user name
+      MYSQL_PASSWORD: 'newpassword'     # Password for the sample user
+      MYSQL_ROOT_PASSWORD: 'newpassword' # Password for the root user
+    ports:
+      - "3306:3306"                  # Map host port 3306 to container port 3306
+    volumes:
+      - mysql-db:/var/lib/mysql      # Persist data
+
+volumes:
+  mysql-db:

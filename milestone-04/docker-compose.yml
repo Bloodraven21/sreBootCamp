@@ -1,0 +1,38 @@
+services:
+  flask-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: flask-api:3.1.0
+    restart: always
+    environment:
+      DATABASE_URL: mysql+pymysql://dbadmin:newpassword@mysql:3306/studentdb1
+      RUN_MIGRATION: true
+    command: sh -c "python3 -m flask --app app/__init__.py db upgrade && python3 -m flask run --host=0.0.0.0 --port=5000"
+    ports:
+      - "5000:5000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-8.0-m3
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'studentdb1'
+      MYSQL_USER: 'dbadmin'
+      MYSQL_PASSWORD: 'newpassword'
+      MYSQL_ROOT_PASSWORD: 'newpassword'
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mysql-db:
