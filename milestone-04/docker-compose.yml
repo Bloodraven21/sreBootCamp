@@ -17,7 +17,7 @@ services:
 
   mysql:
     image: mysql:8.0
-    container_name: mysql-8.0-m3
+    container_name: mysql-8.0-m4
     restart: always
     environment:
       MYSQL_DATABASE: 'studentdb1'
