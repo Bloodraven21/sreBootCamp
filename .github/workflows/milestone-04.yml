@@ -58,7 +58,7 @@ jobs:
       # Step 6: Start services with Docker Compose
       - name: Start services with Docker Compose
         working-directory: milestone-04  # Ensure the working directory is set
-        run: /tmp/docker-compose up db -d # Start the Flask API and MySQL database in detached mode 
+        run: /tmp/docker-compose up mysql -d # Start the Flask API and MySQL database in detached mode 
 
       # Step 7: Run tests
       - name: Run tests
